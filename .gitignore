@@ -1,11 +1,5 @@
-# Android build artifacts
-android/app/build/
-android/build/
-android/.gradle/
-android/local.properties
-android/*.keystore
-android/.idea/
-android/app/release/
+# Android TWA project (kept locally, not in the PWA repo)
+android/
 
 # OS
 Thumbs.db
