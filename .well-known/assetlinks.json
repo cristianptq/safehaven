@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "ro.cristianptq.safehaven",
+      "sha256_cert_fingerprints": [
+        "7E:38:0C:9F:38:37:89:AA:90:C2:93:AC:DB:D5:E1:18:60:FC:C7:13:10:9E:38:EF:52:C7:D9:1D:74:24:0B:96"
+      ]
+    }
+  }
+]

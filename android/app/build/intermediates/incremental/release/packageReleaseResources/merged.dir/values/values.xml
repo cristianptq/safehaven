@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="enableNotification">false</bool>
+    <bool name="enableSiteSettingsShortcut">true</bool>
+    <color name="backgroundColor">#0E1113</color>
+    <color name="colorPrimary">#B42318</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="navigationColor">#0E1113</color>
+    <color name="navigationColorDark">#000000</color>
+    <color name="navigationDividerColor">#000000</color>
+    <color name="navigationDividerColorDark">#000000</color>
+    <color name="shortcut_background">#F5F5F5</color>
+    <integer name="splashScreenFadeOutDuration">300</integer>
+    <string name="appName" translatable="false">SafeHaven</string>
+    <string name="assetStatements">
+    [{
+        \"relation\": [\"delegate_permission/common.handle_all_urls\"],
+        \"target\": {
+            \"namespace\": \"web\",
+            \"site\": \"https://cristianptq.github.io\"
+        }
+    }]
+    
+  </string>
+    <string name="fallbackType" translatable="false">customtabs</string>
+    <string name="generatorApp" translatable="false">bubblewrap-cli</string>
+    <string name="hostName" translatable="false">cristianptq.github.io</string>
+    <string name="launchUrl" translatable="false">https://cristianptq.github.io/safehaven/index.html</string>
+    <string name="launcherName" translatable="false">SafeHaven</string>
+    <string name="orientation" translatable="false">portrait</string>
+    <string name="providerAuthority" translatable="false">ro.cristianptq.safehaven.fileprovider</string>
+    <string name="shareTarget" translatable="false">{\"action\":\"\",\"params\":{\"title\":\"\",\"text\":\"\",\"url\":\"\"}}</string>
+    <string name="webManifestUrl" translatable="false">https://cristianptq.github.io/safehaven/manifest.json</string>
+</resources>
