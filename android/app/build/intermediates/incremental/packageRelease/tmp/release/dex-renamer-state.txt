@@ -1,4 +1,0 @@
-#Fri Nov 06 16:16:44 EET 2026
-base.0=C\:\\Users\\cpetcu\\OneDrive\\Proiecte\\SafeHaven\\android\\app\\build\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
-renamed.0=classes.dex
-path.0=classes.dex
