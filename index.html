@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#b42318" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="SafeHaven" />
+  <meta name="description" content="Offline-first family disaster preparedness: emergency plan, vital documents, kit checklist." />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <script>
+    (() => {
+      const saved = localStorage.getItem("safehavenTheme");
+      const theme =
+        saved || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+      document.documentElement.setAttribute("data-theme", theme);
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute("content", theme === "light" ? "#f5f3ef" : "#0e1113");
+    })();
+  </script>
+  <link rel="stylesheet" href="styles.css" />
+  <title>SafeHaven — Family Emergency Plan</title>
+</head>
+<body>
+  <header class="appbar">
+    <div class="brand"><img src="icon.svg" alt="" width="28" height="28" /><span>SafeHaven</span></div>
+    <div class="appbar-actions">
+      <button type="button" class="icon-btn" id="themeToggle" data-action="toggle-theme" aria-label="Toggle light/dark theme">☀️</button>
+      <button type="button" class="lang-toggle" id="langToggle" data-action="toggle-lang" aria-label="Switch language">EN</button>
+      <a class="ice-btn" href="#/ice">ICE</a>
+    </div>
+  </header>
+
+  <main id="view" class="view"></main>
+
+  <nav class="tabbar">
+    <a href="#/home" data-tab="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/></svg>
+      <span data-i18n="home">Home</span>
+    </a>
+    <a href="#/plan" data-tab="plan">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2.8h6V4"/><path d="M8.5 13.5l2.5 2.5 4.5-5"/></svg>
+      <span data-i18n="plan">Plan</span>
+    </a>
+    <a href="#/kit" data-tab="kit">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8.5h8"/><path d="M8 12.5h8"/><path d="M8 16.5h5"/></svg>
+      <span data-i18n="kit">Kit</span>
+    </a>
+    <a href="#/people" data-tab="people">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c.6-3.4 2.8-5 5.5-5s4.9 1.6 5.5 5"/><circle cx="17" cy="9" r="2.6"/><path d="M15.5 14.6c2.9.2 4.6 1.8 5 5.4"/></svg>
+      <span data-i18n="people">People</span>
+    </a>
+    <a href="#/vault" data-tab="vault">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9.5 11.5l2 2 3.5-4"/></svg>
+      <span data-i18n="vault">Vault</span>
+    </a>
+    <a href="#/shelters" data-tab="shelters">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-5h4v5"/></svg>
+      <span data-i18n="shelters">Shelters</span>
+    </a>
+  </nav>
+
+  <div id="modalRoot"></div>
+  <div id="toastRoot" aria-live="polite"></div>
+  <div id="printSheet"></div>
+
+  <input type="file" id="docFileInput" multiple hidden />
+  <input type="file" id="docCameraInput" accept="image/*" capture="environment" hidden />
+  <input type="file" id="importFileInput" accept=".json,application/json" hidden />
+
+  <script src="i18n.js"></script>
+  <script src="util.js"></script>
+  <script src="db.js"></script>
+  <script src="crypto.js"></script>
+  <script src="shelters.js"></script>
+  <script src="data.js"></script>
+  <script src="views.js"></script>
+  <script src="cloud.js"></script>
+  <script src="actions.js"></script>
+  <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    }
+  </script>
+</body>
+</html>
