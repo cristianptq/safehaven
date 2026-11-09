@@ -83,51 +83,51 @@ const KIT_TEMPLATE = [
 
 const PLAN_CARDS = {
   numbers: {
-    title: "Emergency numbers",
-    hint: "Defaults follow the European 112 system — adjust to your country.",
+    titleKey: "emergencyNumbers",
+    hintKey: "numbersHint",
     fields: [
-      ["medical", "Ambulance", "tel"],
-      ["police", "Police", "tel"],
-      ["fire", "Fire brigade", "tel"],
-      ["other", "Other", "text"]
+      ["medical", "ambulance", "tel"],
+      ["police", "police", "tel"],
+      ["fire", "fire", "tel"],
+      ["other", "other", "text"]
     ]
   },
   outOfArea: {
-    title: "Out-of-area contact",
-    hint: "If you get separated, everyone calls or texts this person to check in.",
+    titleKey: "outOfAreaContact",
+    hintKey: "outOfAreaHint",
     fields: [
-      ["name", "Name", "text"],
-      ["phone", "Phone", "tel"]
+      ["name", "name", "text"],
+      ["phone", "phone", "tel"]
     ]
   },
   meeting: {
-    title: "Meeting places",
-    hint: "Pick three: right outside your home, outside your neighborhood, and out of town.",
+    titleKey: "meetingPlaces",
+    hintKey: "meetingHint",
     meeting: true,
     places: [
-      ["near", "Right outside home"],
-      ["neighborhood", "Outside the neighborhood"],
-      ["regional", "Out of town / regional"]
+      ["near", "rightOutsideHome"],
+      ["neighborhood", "outsideTheNeighborhood"],
+      ["regional", "outOfTownRegional"]
     ]
   },
   evacuation: {
-    title: "Evacuation plan",
-    hint: "Know where you will go and how you will get there. Practice twice a year.",
+    titleKey: "evacuationPlan",
+    hintKey: "evacuationHint",
     fields: [
-      ["routePrimary", "Primary route", "text"],
-      ["routeAlt", "Alternate route", "text"],
-      ["destination", "Destination / shelter", "text"],
-      ["transport", "Transportation plan", "text"],
-      ["pets", "Pet plan", "text"]
+      ["routePrimary", "primaryRoute", "text"],
+      ["routeAlt", "alternateRoute", "text"],
+      ["destination", "destinationShelter", "text"],
+      ["transport", "transportationPlan", "text"],
+      ["pets", "petPlan", "text"]
     ]
   },
   utilities: {
-    title: "Utility shutoffs",
-    hint: "Where each shutoff is and how to operate it. Turn off gas only if you suspect a leak.",
+    titleKey: "utilityShutoffs",
+    hintKey: "utilitiesHint",
     fields: [
-      ["gas", "Gas — location & how", "text"],
-      ["water", "Water — location & how", "text"],
-      ["electricity", "Electricity — location & how", "text"]
+      ["gas", "gasShutoff", "text"],
+      ["water", "waterShutoff", "text"],
+      ["electricity", "electricityShutoff", "text"]
     ]
   }
 };

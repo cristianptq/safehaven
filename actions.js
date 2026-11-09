@@ -3,21 +3,21 @@
 // ---------- Forms ----------
 
 function memberForm(m) {
-  openModal(m ? "Edit member" : "Add member", `
-    ${field("Full name", "name", m?.name || "", { required: true })}
-    ${field("Date of birth", "dob", m?.dob || "", { type: "date" })}
-    ${field("Blood type", "blood", m?.blood || "", { options: BLOOD_TYPES.map((b) => [b, b || "Unknown / not set"]) })}
-    ${field("Allergies", "allergies", m?.allergies || "", { textarea: true, placeholder: "e.g. penicillin, peanuts" })}
-    ${field("Medications", "medications", m?.medications || "", { textarea: true, placeholder: "One per line, include dosage" })}
-    ${field("Medical conditions", "conditions", m?.conditions || "", { textarea: true, placeholder: "e.g. diabetes, asthma" })}
-    ${field("Doctor name", "doctorName", m?.doctorName || "")}
-    ${field("Doctor phone", "doctorPhone", m?.doctorPhone || "", { type: "tel" })}
-    ${field("Notes", "notes", m?.notes || "", { textarea: true })}
+  openModal(m ? t("editMember") : t("addMember"), `
+    ${field(t("fullName"), "name", m?.name || "", { required: true })}
+    ${field(t("dob"), "dob", m?.dob || "", { type: "date" })}
+    ${field(t("bloodType"), "blood", m?.blood || "", { options: BLOOD_TYPES.map((b) => [b, b || t("unknownNotSet")]) })}
+    ${field(t("allergies"), "allergies", m?.allergies || "", { textarea: true, placeholder: "e.g. penicillin, peanuts" })}
+    ${field(t("medications"), "medications", m?.medications || "", { textarea: true, placeholder: "One per line, include dosage" })}
+    ${field(t("medicalConditions"), "conditions", m?.conditions || "", { textarea: true, placeholder: "e.g. diabetes, asthma" })}
+    ${field(t("doctorName"), "doctorName", m?.doctorName || "")}
+    ${field(t("doctorPhone"), "doctorPhone", m?.doctorPhone || "", { type: "tel" })}
+    ${field(t("notes"), "notes", m?.notes || "", { textarea: true })}
   `, {
     onSubmit: (fd) => {
       const v = trimAll(Object.fromEntries(fd));
       if (!v.name) {
-        toast("Name is required");
+        toast(t("nameRequired"));
         return false;
       }
       const arr = state.sections.household.members;
@@ -25,24 +25,24 @@ function memberForm(m) {
       else arr.push({ id: uid(), ...v });
       save("household").then(() => {
         refresh();
-        toast("Saved");
+        toast(t("saved"));
       });
     }
   });
 }
 
 function petForm(p) {
-  openModal(p ? "Edit pet" : "Add pet", `
-    ${field("Name", "name", p?.name || "", { required: true })}
-    ${field("Species / breed", "species", p?.species || "", { placeholder: "e.g. dog, labrador" })}
-    ${field("Vet name", "vetName", p?.vetName || "")}
-    ${field("Vet phone", "vetPhone", p?.vetPhone || "", { type: "tel" })}
-    ${field("Notes", "notes", p?.notes || "", { textarea: true, placeholder: "Food, medication, carrier location…" })}
+  openModal(p ? t("editPet") : t("addPet"), `
+    ${field(t("name"), "name", p?.name || "", { required: true })}
+    ${field(t("speciesBreed"), "species", p?.species || "", { placeholder: "e.g. dog, labrador" })}
+    ${field(t("vetName"), "vetName", p?.vetName || "")}
+    ${field(t("vetPhone"), "vetPhone", p?.vetPhone || "", { type: "tel" })}
+    ${field(t("notes"), "notes", p?.notes || "", { textarea: true, placeholder: "Food, medication, carrier location…" })}
   `, {
     onSubmit: (fd) => {
       const v = trimAll(Object.fromEntries(fd));
       if (!v.name) {
-        toast("Name is required");
+        toast(t("nameRequired"));
         return false;
       }
       const arr = state.sections.household.pets;
@@ -50,26 +50,26 @@ function petForm(p) {
       else arr.push({ id: uid(), ...v });
       save("household").then(() => {
         refresh();
-        toast("Saved");
+        toast(t("saved"));
       });
     }
   });
 }
 
 function contactForm(c) {
-  openModal(c ? "Edit contact" : "Add contact", `
-    ${field("Name", "name", c?.name || "", { required: true })}
-    ${field("Category", "category", c?.category || "Family", { options: CONTACT_CATEGORIES.map((x) => [x, x]) })}
-    ${field("Phone", "phone", c?.phone || "", { type: "tel" })}
-    ${field("Alternative phone", "altPhone", c?.altPhone || "", { type: "tel" })}
-    ${field("Email", "email", c?.email || "", { type: "email" })}
-    ${field("Address", "address", c?.address || "")}
-    ${field("Notes", "notes", c?.notes || "", { textarea: true })}
+  openModal(c ? t("editContact") : t("addContact"), `
+    ${field(t("name"), "name", c?.name || "", { required: true })}
+    ${field(t("category"), "category", c?.category || "Family", { options: CONTACT_CATEGORIES.map((x) => [x, td(x)]) })}
+    ${field(t("phone"), "phone", c?.phone || "", { type: "tel" })}
+    ${field(t("alternativePhone"), "altPhone", c?.altPhone || "", { type: "tel" })}
+    ${field(t("email"), "email", c?.email || "", { type: "email" })}
+    ${field(t("address"), "address", c?.address || "")}
+    ${field(t("notes"), "notes", c?.notes || "", { textarea: true })}
   `, {
     onSubmit: (fd) => {
       const v = trimAll(Object.fromEntries(fd));
       if (!v.name) {
-        toast("Name is required");
+        toast(t("nameRequired"));
         return false;
       }
       const arr = state.sections.contacts.list;
@@ -77,7 +77,7 @@ function contactForm(c) {
       else arr.push({ id: uid(), ...v });
       save("contacts").then(() => {
         refresh();
-        toast("Saved");
+        toast(t("saved"));
       });
     }
   });
@@ -86,13 +86,13 @@ function contactForm(c) {
 function placeFieldset(f, label, p) {
   return `<fieldset class="place-fs">
     <legend>${esc(label)}</legend>
-    ${field("Name / description", `${f}__label`, p.label || "", { placeholder: "e.g. the big oak tree" })}
-    ${field("Address", `${f}__address`, p.address || "", { placeholder: "Street, number, city" })}
+    ${field(t("nameDesc"), `${f}__label`, p.label || "", { placeholder: "e.g. the big oak tree" })}
+    ${field(t("address"), `${f}__address`, p.address || "", { placeholder: "Street, number, city" })}
     <div class="vf-row">
-      <input type="text" inputmode="decimal" name="${f}__lat" placeholder="Latitude" value="${esc(p.lat || "")}">
-      <input type="text" inputmode="decimal" name="${f}__lng" placeholder="Longitude" value="${esc(p.lng || "")}">
+      <input type="text" inputmode="decimal" name="${f}__lat" placeholder="${esc(t("latitude"))}" value="${esc(p.lat || "")}">
+      <input type="text" inputmode="decimal" name="${f}__lng" placeholder="${esc(t("longitude"))}" value="${esc(p.lng || "")}">
     </div>
-    <button type="button" class="btn ghost small" data-action="geo-fill" data-prefix="${f}">📡 Use my current location</button>
+    <button type="button" class="btn ghost small" data-action="geo-fill" data-prefix="${f}">${esc(t("useMyLocation"))}</button>
   </fieldset>`;
 }
 
@@ -100,10 +100,10 @@ function planForm(key) {
   const cfg = PLAN_CARDS[key];
   const data = state.sections.plan[key] || {};
   const body = cfg.meeting
-    ? cfg.places.map(([f, label]) => placeFieldset(f, label, data[f] || {})).join("")
-    : cfg.fields.map(([f, label, type]) => field(label, f, data[f] || "", { type: type || "text" })).join("");
-  openModal(cfg.title, `
-    ${cfg.hint ? `<p class="hint">${esc(cfg.hint)}</p>` : ""}
+    ? cfg.places.map(([f, labelKey]) => placeFieldset(f, t(labelKey), data[f] || {})).join("")
+    : cfg.fields.map(([f, labelKey, type]) => field(t(labelKey), f, data[f] || "", { type: type || "text" })).join("");
+  openModal(t(cfg.titleKey), `
+    ${cfg.hintKey ? `<p class="hint">${esc(t(cfg.hintKey))}</p>` : ""}
     ${body}
   `, {
     onSubmit: (fd) => {
@@ -123,19 +123,19 @@ function planForm(key) {
       }
       save("plan").then(() => {
         refresh();
-        toast("Saved");
+        toast(t("saved"));
       });
     }
   });
 }
 
 function planNotesForm() {
-  openModal("Other notes", field("Notes", "notes", state.sections.plan.notes || "", { textarea: true }), {
+  openModal(t("otherNotes"), field(t("notes"), "notes", state.sections.plan.notes || "", { textarea: true }), {
     onSubmit: (fd) => {
       state.sections.plan.notes = String(fd.get("notes") || "").trim();
       save("plan").then(() => {
         refresh();
-        toast("Saved");
+        toast(t("saved"));
       });
     }
   });
@@ -144,17 +144,17 @@ function planNotesForm() {
 function kitForm(item) {
   const cats = [...new Set(state.sections.kit.items.map((i) => i.cat))];
   if (!cats.includes("Custom")) cats.push("Custom");
-  openModal(item ? "Edit item" : "Add kit item", `
-    ${field("Item", "label", item?.label || "", { required: true })}
-    ${field("Category", "cat", item?.cat || cats[0], { options: cats.map((c) => [c, c]) })}
-    ${field("Quantity", "qty", item?.qty || "", { placeholder: "e.g. 12 L, 3 pcs" })}
-    ${field("Hint", "hint", item?.hint || "", { placeholder: "Short guidance shown under the item" })}
-    ${field("Notes", "notes", item?.notes || "", { placeholder: "e.g. expiry date, location" })}
+  openModal(item ? t("editItem") : t("addKitItem"), `
+    ${field(t("item"), "label", item?.label || "", { required: true })}
+    ${field(t("category"), "cat", item?.cat || cats[0], { options: cats.map((c) => [c, td(c)]) })}
+    ${field(t("quantity"), "qty", item?.qty || "", { placeholder: "e.g. 12 L, 3 pcs" })}
+    ${field(t("hint"), "hint", item?.hint || "", { placeholder: "Short guidance shown under the item" })}
+    ${field(t("notes"), "notes", item?.notes || "", { placeholder: "e.g. expiry date, location" })}
   `, {
     onSubmit: (fd) => {
       const v = trimAll(Object.fromEntries(fd));
       if (!v.label) {
-        toast("Item name is required");
+        toast(t("itemNameRequired"));
         return false;
       }
       const arr = state.sections.kit.items;
@@ -162,7 +162,7 @@ function kitForm(item) {
       else arr.push({ id: uid(), done: false, custom: true, ...v });
       save("kit").then(() => {
         refresh();
-        toast("Saved");
+        toast(t("saved"));
       });
     }
   });
@@ -170,24 +170,24 @@ function kitForm(item) {
 
 function vfRow(label = "", value = "") {
   return `<div class="vf-row">
-    <input type="text" name="vf_label" placeholder="Label (e.g. Policy #)" value="${esc(label)}">
-    <input type="text" name="vf_value" placeholder="Value" value="${esc(value)}">
+    <input type="text" name="vf_label" placeholder="${esc(t("labelField"))}" value="${esc(label)}">
+    <input type="text" name="vf_value" placeholder="${esc(t("valueField"))}" value="${esc(value)}">
   </div>`;
 }
 
 function vitalForm(r) {
   const rows = (r?.fields?.length ? r.fields : [{ label: "", value: "" }]).map((f) => vfRow(f.label, f.value)).join("");
-  openModal(r ? "Edit record" : "Add vital record", `
-    ${field("Title", "title", r?.title || "", { required: true, placeholder: "e.g. Home insurance" })}
-    ${field("Category", "category", r?.category || "Insurance", { options: VITAL_CATEGORIES.map((c) => [c, c]) })}
+  openModal(r ? t("editRecord") : t("addVitalRecord"), `
+    ${field(t("title"), "title", r?.title || "", { required: true, placeholder: "e.g. Home insurance" })}
+    ${field(t("category"), "category", r?.category || "Insurance", { options: VITAL_CATEGORIES.map((c) => [c, td(c)]) })}
     <div id="vfRows">${rows}</div>
-    <button type="button" class="btn ghost small" data-action="vital-add-row">+ Add field</button>
-    ${field("Notes", "notes", r?.notes || "", { textarea: true })}
+    <button type="button" class="btn ghost small" data-action="vital-add-row">${esc(t("addField"))}</button>
+    ${field(t("notes"), "notes", r?.notes || "", { textarea: true })}
   `, {
     onSubmit: (fd) => {
       const title = String(fd.get("title") || "").trim();
       if (!title) {
-        toast("Title is required");
+        toast(t("titleRequired"));
         return false;
       }
       const labels = fd.getAll("vf_label");
@@ -207,7 +207,7 @@ function vitalForm(r) {
       else arr.push(rec);
       save("vital").then(() => {
         refresh();
-        toast("Saved");
+        toast(t("saved"));
       });
     }
   });
@@ -398,7 +398,7 @@ async function sendMsg(channel) {
   const msg = $("#msgPreview").value;
   const recipients = fd.getAll("rcpt");
   if (!msg.trim()) {
-    toast("Message is empty");
+    toast(t("messageEmpty"));
     return;
   }
   if (channel === "copy") {
@@ -432,7 +432,7 @@ async function sendMsg(channel) {
     // Fallback: wa.me opens one chat at a time
     const first = recipients[0].replace(/[^0-9]/g, "");
     window.open(`https://wa.me/${first}?text=${encoded}`, "_blank");
-    if (recipients.length > 1) toast("WhatsApp opens one chat at a time — resend for each contact");
+    if (recipients.length > 1) toast(t("whatsappOneAtTime"));
   }
 }
 
@@ -457,6 +457,9 @@ function loadLeaflet() {
   return leafletReady;
 }
 
+let allSheltersMap = null;
+let userMarker = null;
+
 async function initAllSheltersMap() {
   try {
     await loadLeaflet();
@@ -464,20 +467,12 @@ async function initAllSheltersMap() {
     if (!el) return;
     const center = state.userLocation ? [state.userLocation.lat, state.userLocation.lng] : [45.94, 25.0]; // Romania
     const zoom = state.userLocation ? 11 : 7;
-    const map = L.map(el).setView(center, zoom);
+    allSheltersMap = L.map(el).setView(center, zoom);
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
       attribution: "&copy; OpenStreetMap contributors"
-    }).addTo(map);
-    if (state.userLocation) {
-      L.circleMarker([state.userLocation.lat, state.userLocation.lng], {
-        radius: 8,
-        color: "#fff",
-        weight: 2,
-        fillColor: "#0078d4",
-        fillOpacity: 1
-      }).addTo(map).bindPopup("📍 You");
-    }
+    }).addTo(allSheltersMap);
+    if (state.userLocation) addUserMarkerToAllMap();
     for (const s of SHELTERS) {
       L.circleMarker([s.lat, s.lng], {
         radius: 4,
@@ -485,13 +480,101 @@ async function initAllSheltersMap() {
         weight: 1,
         fillColor: "#e5484d",
         fillOpacity: 0.7
-      }).addTo(map).bindPopup(`<strong>${esc(s.name)}</strong><br>${esc(s.address)}<br>${esc(s.locality)}`);
+      }).addTo(allSheltersMap).bindPopup(`<strong>${esc(s.name)}</strong><br>${esc(s.address)}<br>${esc(s.locality)}`);
     }
   } catch (err) {
     console.error(err);
     const el = document.getElementById("mapCanvasAll");
     if (el) el.outerHTML = `<div class="map-offline"><div class="map-pin">🗺️</div><p>${esc(t("mapOnlineOnly"))}</p></div>`;
   }
+}
+
+function openFullSheltersMap() {
+  const pts = SHELTERS.map((s) => ({ n: s.name, a: s.address, l: s.locality, lat: s.lat, lng: s.lng }));
+  const user = state.userLocation;
+  const L10n = {
+    you: t("youMarker"),
+    locate: t("locateMe"),
+    directions: t("directions"),
+    locating: t("gettingLocationToast"),
+    locError: t("locationError")
+  };
+  const html = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(t("allSheltersMap"))}</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+html,body,#map{height:100%;margin:0}
+.loc-btn{position:absolute;top:12px;right:12px;z-index:1000;background:#b42318;color:#fff;border:none;border-radius:10px;padding:12px 16px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3);font-family:system-ui,sans-serif}
+.loc-btn:active{transform:scale(.97)}
+.leaflet-popup-content{font-family:system-ui,sans-serif;font-size:14px;line-height:1.4}
+.nav-link{display:inline-block;margin-top:8px;background:#b42318;color:#fff!important;text-decoration:none;padding:7px 12px;border-radius:8px;font-weight:600;font-size:13px}
+.nav-alt{background:#1f6fb5}
+</style></head><body>
+<div id="map"></div>
+<button class="loc-btn" id="locBtn">📡 ${esc(L10n.locate)}</button>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"><\/script>
+<script>
+const pts = ${JSON.stringify(pts)};
+const L10n = ${JSON.stringify(L10n)};
+let user = ${JSON.stringify(user || null)};
+const map = L.map('map').setView(user ? [user.lat, user.lng] : [45.94, 25.0], user ? 11 : 7);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+let userMarker = null;
+function showUser() {
+  if (!user) return;
+  if (userMarker) userMarker.remove();
+  userMarker = L.circleMarker([user.lat, user.lng], { radius: 9, color: '#fff', weight: 2, fillColor: '#0078d4', fillOpacity: 1 }).addTo(map).bindPopup(L10n.you);
+  map.setView([user.lat, user.lng], 13);
+}
+if (user) showUser();
+document.getElementById('locBtn').addEventListener('click', () => {
+  if (!navigator.geolocation) { alert(L10n.locError); return; }
+  document.getElementById('locBtn').textContent = '⏳ ' + L10n.locating;
+  navigator.geolocation.getCurrentPosition((pos) => {
+    user = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+    showUser();
+    document.getElementById('locBtn').textContent = '📡 ' + L10n.locate;
+  }, () => {
+    alert(L10n.locError);
+    document.getElementById('locBtn').textContent = '📡 ' + L10n.locate;
+  }, { enableHighAccuracy: true, timeout: 10000 });
+});
+// geo: URI opens the device's maps app (OsmAnd / Organic Maps work fully offline
+// with downloaded maps). OSM web link is the online fallback.
+function geoUrl(p) {
+  return 'geo:' + p.lat + ',' + p.lng + '?q=' + p.lat + ',' + p.lng + '(' + encodeURIComponent(p.n) + ')';
+}
+function osmDirUrl(p) {
+  const dest = p.lat + ',' + p.lng;
+  return user
+    ? 'https://www.openstreetmap.org/directions?from=' + user.lat + '%2C' + user.lng + '&to=' + encodeURIComponent(dest)
+    : 'https://www.openstreetmap.org/directions?to=' + encodeURIComponent(dest);
+}
+for (const p of pts) {
+  const popup = '<strong>' + p.n + '</strong><br>' + p.a + '<br>' + p.l +
+    '<br><a class="nav-link" href="' + geoUrl(p) + '">🧭 ' + L10n.directions + '</a>' +
+    ' <a class="nav-link nav-alt" target="_blank" rel="noopener" href="' + osmDirUrl(p) + '">🌐 OSM</a>';
+  L.circleMarker([p.lat, p.lng], { radius: 5, color: '#b42318', weight: 1, fillColor: '#e5484d', fillOpacity: 0.7 })
+    .addTo(map).bindPopup(popup);
+}
+<\/script></body></html>`;
+  const blob = new Blob([html], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+  window.open(url, "_blank");
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+}
+
+function addUserMarkerToAllMap() {
+  if (!allSheltersMap || !state.userLocation) return;
+  if (userMarker) userMarker.remove();
+  userMarker = L.circleMarker([state.userLocation.lat, state.userLocation.lng], {
+    radius: 9,
+    color: "#fff",
+    weight: 2,
+    fillColor: "#0078d4",
+    fillOpacity: 1
+  }).addTo(allSheltersMap).bindPopup(esc(t("youMarker"))).openPopup();
+  allSheltersMap.setView([state.userLocation.lat, state.userLocation.lng], 12);
 }
 
 async function initLeafletMap(lat, lng, label) {
@@ -508,7 +591,7 @@ async function initLeafletMap(lat, lng, label) {
   } catch (err) {
     console.error(err);
     const el = document.getElementById("mapCanvas");
-    if (el) el.outerHTML = '<div class="map-offline"><div class="map-pin">📍</div><p>Map could not load.</p></div>';
+    if (el) el.outerHTML = `<div class="map-offline"><div class="map-pin">📍</div><p>${esc(t("mapCouldNotLoad"))}</p></div>`;
   }
 }
 
@@ -531,7 +614,7 @@ async function onDocFiles(input) {
   }
   await refreshFilesMeta();
   refresh();
-  toast(files.length === 1 ? "File stored" : `${files.length} files stored`);
+  toast(files.length === 1 ? t("fileStored") : `${files.length} ${t("filesStored")}`);
 }
 
 async function docOpen(id) {
@@ -624,10 +707,10 @@ async function doExport(encrypted) {
     downloadText(`safehaven-backup-${stamp()}${suffix}.json`, text);
     await markExported();
     refresh();
-    toast("Backup exported");
+    toast(t("backupExported"));
   } catch (err) {
     console.error(err);
-    toast("Export failed");
+    toast(t("exportFailed"));
   }
 }
 
@@ -640,12 +723,12 @@ async function doShare() {
       await markExported();
       refresh();
     } else {
-      toast("File sharing not supported here — use Export");
+      toast(t("shareNotSupported"));
     }
   } catch (err) {
     if (err && err.name === "AbortError") return;
     console.error(err);
-    toast("Share failed");
+    toast(t("shareFailed"));
   }
 }
 
@@ -660,12 +743,12 @@ async function doImportFile(file) {
       try {
         obj = JSON.parse(await cryptoBox.decryptText(obj, pass));
       } catch {
-        toast("Wrong passphrase or corrupted file");
+        toast(t("wrongPassphrase"));
         return;
       }
       if (!obj || obj.app !== "safehaven") throw new Error("bad file");
     }
-    const ok = await confirmDialog("Importing will REPLACE all current data on this device. Continue?", "Replace data", true);
+    const ok = await confirmDialog(t("importReplaceConfirm"), t("replaceData"), true);
     if (!ok) return;
     await db.clearAll();
     for (const [id, value] of Object.entries(obj.data || {})) await db.setSection(id, value);
@@ -685,24 +768,24 @@ async function doImportFile(file) {
     await loadState();
     await refreshFilesMeta();
     refresh();
-    toast("Backup imported");
+    toast(t("backupImported"));
   } catch (err) {
     console.error(err);
-    toast("Import failed — not a valid SafeHaven backup");
+    toast(t("importFailed"));
   }
 }
 
 async function doErase() {
-  const ok1 = await confirmDialog("Erase ALL data on this device? This cannot be undone.", "Erase everything", true);
+  const ok1 = await confirmDialog(t("eraseConfirm1"), t("eraseEverything"), true);
   if (!ok1) return;
-  const ok2 = await confirmDialog("Really sure? Consider exporting a backup first.", "Yes, erase", true);
+  const ok2 = await confirmDialog(t("eraseConfirm2"), t("yesErase"), true);
   if (!ok2) return;
   await db.clearAll();
   await loadState();
   await refreshFilesMeta();
   location.hash = "#/home";
   refresh();
-  toast("All data erased");
+  toast(t("allDataErased"));
 }
 
 // ---------- Print ----------
@@ -713,33 +796,43 @@ function buildPrintSheet() {
   const ct = state.sections.contacts;
   const kit = state.sections.kit;
 
-  const planRows = Object.values(PLAN_CARDS)
-    .map((cfg) => {
-      const data = p[Object.keys(PLAN_CARDS).find((k) => PLAN_CARDS[k] === cfg)] || {};
+  const planRows = Object.entries(PLAN_CARDS)
+    .map(([key, cfg]) => {
+      const data = p[key] || {};
+      if (cfg.meeting) {
+        const rows = cfg.places
+          .map(([f, labelKey]) => {
+            const pl = data[f] || {};
+            const txt = [pl.label, pl.address].filter(Boolean).join(", ") + (pl.lat && pl.lng ? ` (${pl.lat},${pl.lng})` : "");
+            return txt.trim() ? `<tr><th>${esc(t(labelKey))}</th><td>${esc(txt)}</td></tr>` : "";
+          })
+          .join("");
+        return rows ? `<h3>${esc(t(cfg.titleKey))}</h3><table>${rows}</table>` : "";
+      }
       const rows = cfg.fields
         .filter(([f]) => data[f] && String(data[f]).trim())
-        .map(([f, label]) => `<tr><th>${esc(label)}</th><td>${esc(data[f])}</td></tr>`)
+        .map(([f, labelKey]) => `<tr><th>${esc(t(labelKey))}</th><td>${esc(data[f])}</td></tr>`)
         .join("");
-      return rows ? `<h3>${esc(cfg.title)}</h3><table>${rows}</table>` : "";
+      return rows ? `<h3>${esc(t(cfg.titleKey))}</h3><table>${rows}</table>` : "";
     })
     .join("");
 
   const members = hh.members
     .map((m) => {
       const bits = [
-        m.dob ? `DOB: ${fmtDate(m.dob)}` : "",
-        m.blood ? `Blood: ${m.blood}` : "",
-        m.allergies ? `Allergies: ${m.allergies}` : "",
-        m.conditions ? `Conditions: ${m.conditions}` : "",
-        m.medications ? `Medications: ${m.medications.replace(/\n/g, "; ")}` : "",
-        m.doctorName ? `Doctor: ${m.doctorName} ${m.doctorPhone || ""}` : ""
+        m.dob ? `${t("dob")}: ${fmtDate(m.dob)}` : "",
+        m.blood ? `${t("bloodType")}: ${m.blood}` : "",
+        m.allergies ? `${t("allergies")}: ${m.allergies}` : "",
+        m.conditions ? `${t("conditions")}: ${m.conditions}` : "",
+        m.medications ? `${t("medications")}: ${m.medications.replace(/\n/g, "; ")}` : "",
+        m.doctorName ? `${t("doctor")}: ${m.doctorName} ${m.doctorPhone || ""}` : ""
       ].filter(Boolean);
       return `<tr><th>${esc(m.name)}</th><td>${esc(bits.join(" · "))}</td></tr>`;
     })
     .join("");
 
   const contacts = ct.list
-    .map((c) => `<tr><th>${esc(c.name)}</th><td>${esc([c.category, c.phone, c.altPhone].filter(Boolean).join(" · "))}</td></tr>`)
+    .map((c) => `<tr><th>${esc(c.name)}</th><td>${esc([td(c.category), c.phone, c.altPhone].filter(Boolean).join(" · "))}</td></tr>`)
     .join("");
 
   const kitRows = kit.items
@@ -747,14 +840,14 @@ function buildPrintSheet() {
     .join("");
 
   $("#printSheet").innerHTML = `
-    <h1>SafeHaven — Family Emergency Plan</h1>
-    <p>Printed ${esc(fmtDateTime(new Date().toISOString()))}. Keep a copy in your emergency kit.</p>
+    <h1>SafeHaven — ${esc(t("emergencyPlan"))}</h1>
+    <p>${esc(t("printDesc"))}</p>
     ${planRows}
-    ${p.notes ? `<h3>Notes</h3><p>${esc(p.notes).replace(/\n/g, "<br>")}</p>` : ""}
-    ${members ? `<h3>Household medical info</h3><table>${members}</table>` : ""}
-    ${hh.pets.length ? `<h3>Pets</h3><table>${hh.pets.map((x) => `<tr><th>${esc(x.name)}</th><td>${esc([x.species, x.vetName, x.vetPhone].filter(Boolean).join(" · "))}</td></tr>`).join("")}</table>` : ""}
-    ${contacts ? `<h3>Emergency contacts</h3><table>${contacts}</table>` : ""}
-    ${kitRows ? `<h3>Emergency kit checklist</h3><table>${kitRows}</table>` : ""}
+    ${p.notes ? `<h3>${esc(t("notes"))}</h3><p>${esc(p.notes).replace(/\n/g, "<br>")}</p>` : ""}
+    ${members ? `<h3>${esc(t("medicalAlerts"))}</h3><table>${members}</table>` : ""}
+    ${hh.pets.length ? `<h3>${esc(t("pets"))}</h3><table>${hh.pets.map((x) => `<tr><th>${esc(x.name)}</th><td>${esc([x.species, x.vetName, x.vetPhone].filter(Boolean).join(" · "))}</td></tr>`).join("")}</table>` : ""}
+    ${contacts ? `<h3>${esc(t("emergencyContacts"))}</h3><table>${contacts}</table>` : ""}
+    ${kitRows ? `<h3>${esc(t("emergencyKit"))}</h3><table>${kitRows}</table>` : ""}
   `;
 }
 
@@ -793,11 +886,11 @@ document.addEventListener("click", async (e) => {
       break;
     case "del-member": {
       const m = hh.members.find((x) => x.id === id);
-      if (m && (await confirmDialog(`Remove ${m.name}?`, "Remove", true))) {
+      if (m && (await confirmDialog(`${t("remove")} ${m.name}?`, t("remove"), true))) {
         hh.members = hh.members.filter((x) => x.id !== id);
         await save("household");
         refresh();
-        toast("Removed");
+        toast(t("removed"));
       }
       break;
     }
@@ -810,11 +903,11 @@ document.addEventListener("click", async (e) => {
       break;
     case "del-pet": {
       const p = hh.pets.find((x) => x.id === id);
-      if (p && (await confirmDialog(`Remove ${p.name}?`, "Remove", true))) {
+      if (p && (await confirmDialog(`${t("remove")} ${p.name}?`, t("remove"), true))) {
         hh.pets = hh.pets.filter((x) => x.id !== id);
         await save("household");
         refresh();
-        toast("Removed");
+        toast(t("removed"));
       }
       break;
     }
@@ -827,11 +920,11 @@ document.addEventListener("click", async (e) => {
       break;
     case "del-contact": {
       const c = state.sections.contacts.list.find((x) => x.id === id);
-      if (c && (await confirmDialog(`Remove ${c.name}?`, "Remove", true))) {
+      if (c && (await confirmDialog(`${t("remove")} ${c.name}?`, t("remove"), true))) {
         state.sections.contacts.list = state.sections.contacts.list.filter((x) => x.id !== id);
         await save("contacts");
         refresh();
-        toast("Removed");
+        toast(t("removed"));
       }
       break;
     }
@@ -843,10 +936,10 @@ document.addEventListener("click", async (e) => {
     case "geo-fill": {
       const prefix = el.dataset.prefix;
       if (!navigator.geolocation) {
-        toast("Geolocation not available on this device");
+        toast(t("locationError"));
         break;
       }
-      toast("Getting location…");
+      toast(t("gettingLocationToast"));
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const lat = pos.coords.latitude.toFixed(6);
@@ -855,11 +948,11 @@ document.addEventListener("click", async (e) => {
           const lngEl = $(`#modalForm [name="${prefix}__lng"]`);
           if (latEl) latEl.value = lat;
           if (lngEl) lngEl.value = lng;
-          toast("Location captured");
+          toast(t("locationCaptured"));
         },
         (err) => {
           console.error(err);
-          toast("Could not get location — check permission");
+          toast(t("locationPermission"));
         },
         { enableHighAccuracy: true, timeout: 10000 }
       );
@@ -870,7 +963,7 @@ document.addEventListener("click", async (e) => {
       const text = `${el.dataset.lat}, ${el.dataset.lng}`;
       try {
         await navigator.clipboard.writeText(text);
-        toast("Coordinates copied");
+        toast(t("coordinatesCopied"));
       } catch {
         toast(text);
       }
@@ -879,7 +972,7 @@ document.addEventListener("click", async (e) => {
 
     case "show-map": {
       const { lat, lng, label } = el.dataset;
-      openModal(label || "Location", mapModalHtml(label || "Location", lat, lng), { submitLabel: "Close", onSubmit: () => {} });
+      openModal(label || t("locationLabel"), mapModalHtml(label || t("locationLabel"), lat, lng), { submitLabel: t("close"), onSubmit: () => {} });
       if (navigator.onLine) initLeafletMap(lat, lng, label);
       break;
     }
@@ -895,11 +988,11 @@ document.addEventListener("click", async (e) => {
       break;
     case "kit-del": {
       const item = state.sections.kit.items.find((x) => x.id === id);
-      if (item && (await confirmDialog(`Remove "${item.label}" from the kit list?`, "Remove", true))) {
+      if (item && (await confirmDialog(`${t("removeItemConfirm")} "${item.label}" ${t("fromKitList")}`, t("remove"), true))) {
         state.sections.kit.items = state.sections.kit.items.filter((x) => x.id !== id);
         await save("kit");
         refresh();
-        toast("Removed");
+        toast(t("removed"));
       }
       break;
     }
@@ -918,11 +1011,11 @@ document.addEventListener("click", async (e) => {
       break;
     case "doc-del": {
       const f = state.filesMeta.find((x) => x.id === id);
-      if (f && (await confirmDialog(`Delete "${f.name}"?`, "Delete", true))) {
+      if (f && (await confirmDialog(`${t("deleteFile")} "${f.name}"?`, t("delete"), true))) {
         await db.deleteFile(id);
         await refreshFilesMeta();
         refresh();
-        toast("Deleted");
+        toast(t("deleted"));
       }
       break;
     }
@@ -935,11 +1028,11 @@ document.addEventListener("click", async (e) => {
       break;
     case "vital-del": {
       const r = state.sections.vital.records.find((x) => x.id === id);
-      if (r && (await confirmDialog(`Delete "${r.title}"?`, "Delete", true))) {
+      if (r && (await confirmDialog(`${t("deleteFile")} "${r.title}"?`, t("delete"), true))) {
         state.sections.vital.records = state.sections.vital.records.filter((x) => x.id !== id);
         await save("vital");
         refresh();
-        toast("Deleted");
+        toast(t("deleted"));
       }
       break;
     }
@@ -1003,6 +1096,29 @@ document.addEventListener("click", async (e) => {
     case "shelter-map-all": {
       openModal(t("allSheltersMap"), allSheltersMapHtml(), { submitLabel: t("close"), onSubmit: () => {} });
       if (navigator.onLine) initAllSheltersMap();
+      break;
+    }
+
+    case "map-all-full": {
+      openFullSheltersMap();
+      break;
+    }
+
+    case "map-all-locate": {
+      if (!navigator.geolocation) {
+        toast(t("locationError"));
+        break;
+      }
+      toast(t("gettingLocationToast"));
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          state.userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+          addUserMarkerToAllMap();
+          toast(t("locationCaptured"));
+        },
+        () => toast(t("locationPermission")),
+        { enableHighAccuracy: true, timeout: 10000 }
+      );
       break;
     }
 

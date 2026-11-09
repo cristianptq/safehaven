@@ -26,7 +26,7 @@ const cloud = (() => {
 
   function ensureOnline(provider) {
     if (!navigator.onLine) {
-      toast(provider + " import needs an internet connection. Use file import when offline.");
+      toast(t(provider === "OneDrive" ? "onedriveNeedsInternet" : "gdriveNeedsInternet"));
       return false;
     }
     return true;
@@ -35,7 +35,7 @@ const cloud = (() => {
   async function pickOneDrive() {
     if (!ensureOnline("OneDrive")) return;
     if (!CLOUD_CONFIG.oneDriveClientId) {
-      toast("OneDrive is not configured yet — see README");
+      toast(t("onedriveNotConfigured"));
       return;
     }
     try {
@@ -55,18 +55,18 @@ const cloud = (() => {
             await doImportFile(new File([blob], file.name || "safehaven-backup.json", { type: "application/json" }));
           } catch (err) {
             console.error(err);
-            toast("Could not download the file from OneDrive");
+            toast(t("onedriveDownloadFail"));
           }
         },
         cancel: () => {},
         error: (err) => {
           console.error(err);
-          toast("OneDrive picker failed");
+          toast(t("onedriveLoadFail"));
         }
       });
     } catch (err) {
       console.error(err);
-      toast("OneDrive picker could not load (offline?)");
+      toast(t("onedriveLoadFail"));
     }
   }
 
@@ -75,7 +75,7 @@ const cloud = (() => {
   async function pickGoogleDrive() {
     if (!ensureOnline("Google Drive")) return;
     if (!CLOUD_CONFIG.googleClientId || !CLOUD_CONFIG.googleApiKey) {
-      toast("Google Drive is not configured yet — see README");
+      toast(t("gdriveNotConfigured"));
       return;
     }
     try {
@@ -89,7 +89,7 @@ const cloud = (() => {
         scope: "https://www.googleapis.com/auth/drive.readonly",
         callback: async (tokenResp) => {
           if (tokenResp.error) {
-            toast("Google sign-in failed");
+            toast(t("googleSignInFail"));
             return;
           }
           const picker = new google.picker.PickerBuilder()
@@ -105,7 +105,7 @@ const cloud = (() => {
                 await doImportFile(new File([blob], doc.name || "safehaven-backup.json", { type: "application/json" }));
               } catch (err) {
                 console.error(err);
-                toast("Could not download the file from Google Drive");
+                toast(t("gdriveDownloadFail"));
               }
             })
             .build();
@@ -115,7 +115,7 @@ const cloud = (() => {
       googleTokenClient.requestAccessToken();
     } catch (err) {
       console.error(err);
-      toast("Google Drive picker could not load (offline?)");
+      toast(t("gdriveLoadFail"));
     }
   }
 

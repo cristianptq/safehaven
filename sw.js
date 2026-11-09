@@ -1,4 +1,4 @@
-const CACHE_NAME = "safehaven-shell-v10";
+const CACHE_NAME = "safehaven-shell-v14";
 const APP_SHELL = [
   "./",
   "./index.html",

@@ -93,7 +93,7 @@ function openModal(title, bodyHtml, { submitLabel = "Save", onSubmit = null } = 
         <form id="modalForm" class="modal-body" novalidate>
           ${bodyHtml}
           <div class="modal-foot">
-            <button type="button" class="btn ghost" data-action="modal-close">Cancel</button>
+            <button type="button" class="btn ghost" data-action="modal-close">${esc(t("cancel"))}</button>
             <button type="submit" class="btn primary">${esc(submitLabel)}</button>
           </div>
         </form>
@@ -109,17 +109,18 @@ function closeModal() {
   modalSubmit = null;
 }
 
-function confirmDialog(message, okLabel = "Confirm", danger = false) {
+function confirmDialog(message, okLabel, danger = false) {
+  if (!okLabel) okLabel = t("confirm");
   return new Promise((resolve) => {
     const root = $("#modalRoot");
     root.innerHTML = `
       <div class="modal-backdrop">
         <div class="modal" role="alertdialog" aria-modal="true">
-          <div class="modal-head"><h2>Please confirm</h2></div>
+          <div class="modal-head"><h2>${esc(t("pleaseConfirm"))}</h2></div>
           <div class="modal-body">
             <p class="confirm-text">${esc(message)}</p>
             <div class="modal-foot">
-              <button type="button" class="btn ghost" data-c="no">Cancel</button>
+              <button type="button" class="btn ghost" data-c="no">${esc(t("cancel"))}</button>
               <button type="button" class="btn ${danger ? "danger" : "primary"}" data-c="yes">${esc(okLabel)}</button>
             </div>
           </div>
@@ -137,7 +138,8 @@ function confirmDialog(message, okLabel = "Confirm", danger = false) {
   });
 }
 
-function promptPassphrase({ confirm = false, title = "Set a passphrase" } = {}) {
+function promptPassphrase({ confirm = false, title } = {}) {
+  if (!title) title = t("setPassphrase");
   return new Promise((resolve) => {
     const root = $("#modalRoot");
     root.innerHTML = `
@@ -145,12 +147,12 @@ function promptPassphrase({ confirm = false, title = "Set a passphrase" } = {}) 
         <div class="modal" role="dialog" aria-modal="true" aria-label="${esc(title)}">
           <div class="modal-head"><h2>${esc(title)}</h2></div>
           <div class="modal-body">
-            <label class="fld"><span>Passphrase</span><input type="password" id="pp1" autocomplete="off"></label>
-            ${confirm ? '<label class="fld"><span>Repeat passphrase</span><input type="password" id="pp2" autocomplete="off"></label>' : ""}
-            <div class="hint">Minimum 6 characters. There is no recovery — if you forget it, the backup cannot be decrypted.</div>
+            <label class="fld"><span>${esc(t("backupPassphrase"))}</span><input type="password" id="pp1" autocomplete="off"></label>
+            ${confirm ? `<label class="fld"><span>${esc(t("backupPassphrase"))}</span><input type="password" id="pp2" autocomplete="off"></label>` : ""}
+            <div class="hint">${esc(t("passHint"))}</div>
             <div class="modal-foot">
-              <button type="button" class="btn ghost" data-c="no">Cancel</button>
-              <button type="button" class="btn primary" data-c="yes">OK</button>
+              <button type="button" class="btn ghost" data-c="no">${esc(t("cancel"))}</button>
+              <button type="button" class="btn primary" data-c="yes">${esc(t("ok"))}</button>
             </div>
           </div>
         </div>
@@ -163,11 +165,11 @@ function promptPassphrase({ confirm = false, title = "Set a passphrase" } = {}) 
       const p1 = root.querySelector("#pp1").value;
       const p2 = confirm ? root.querySelector("#pp2").value : p1;
       if (p1.length < 6) {
-        toast("Passphrase must be at least 6 characters");
+        toast(t("passTooShort"));
         return;
       }
       if (p1 !== p2) {
-        toast("Passphrases do not match");
+        toast(t("passNoMatch"));
         return;
       }
       done(p1);

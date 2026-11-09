@@ -62,51 +62,51 @@ function renderHome() {
     <a class="ice-banner" href="#/ice">
       <div class="ice-banner-icon">🚨</div>
       <div>
-        <div class="ice-banner-title">In Case of Emergency</div>
-        <div class="ice-banner-sub">Tap for the ICE card — critical info at a glance</div>
+        <div class="ice-banner-title">${esc(t("inCaseOfEmergency"))}</div>
+        <div class="ice-banner-sub">${esc(t("iceSubtitle"))}</div>
       </div>
     </a>
 
     <div class="card">
-      <div class="card-head"><h3>Readiness</h3></div>
-      ${progressBar(pc, "Emergency plan")}
-      ${progressBar(kc, "Emergency kit")}
+      <div class="card-head"><h3>${esc(t("readiness"))}</h3></div>
+      ${progressBar(pc, t("emergencyPlan"))}
+      ${progressBar(kc, t("emergencyKit"))}
       <div class="stat-grid">
-        <a class="stat" href="#/people"><div class="stat-num">${hh.members.length}</div><div class="stat-label">Household</div></a>
-        <a class="stat" href="#/people"><div class="stat-num">${ct.list.length}</div><div class="stat-label">Contacts</div></a>
-        <a class="stat" href="#/vault"><div class="stat-num">${state.filesMeta.length}</div><div class="stat-label">Documents</div></a>
-        <a class="stat" href="#/vault"><div class="stat-num">${vt.records.length}</div><div class="stat-label">Vital records</div></a>
+        <a class="stat" href="#/people"><div class="stat-num">${hh.members.length}</div><div class="stat-label">${esc(t("household"))}</div></a>
+        <a class="stat" href="#/people"><div class="stat-num">${ct.list.length}</div><div class="stat-label">${esc(t("contacts"))}</div></a>
+        <a class="stat" href="#/vault"><div class="stat-num">${state.filesMeta.length}</div><div class="stat-label">${esc(t("documents"))}</div></a>
+        <a class="stat" href="#/vault"><div class="stat-num">${vt.records.length}</div><div class="stat-label">${esc(t("vitalRecords"))}</div></a>
       </div>
     </div>
 
     <div class="card" id="installCard" ${state.deferredInstall ? "" : "hidden"}>
-      <div class="card-head"><h3>Install on this device</h3></div>
-      <p>Install SafeHaven as an app so it works fully offline from your home screen.</p>
-      <button class="btn primary" data-action="install-app">Install app</button>
+      <div class="card-head"><h3>${esc(t("installApp"))}</h3></div>
+      <p>${esc(t("installDesc"))}</p>
+      <button class="btn primary" data-action="install-app">${esc(t("installBtn"))}</button>
     </div>
 
     <div class="card">
-      <div class="card-head"><h3>Remember</h3></div>
+      <div class="card-head"><h3>${esc(t("remember"))}</h3></div>
       <ul class="tips">
-        <li>Text, don't call during a disaster — texts get through congested networks more easily.</li>
-        <li>Export a backup after every change and keep a copy on every family device.</li>
-        <li>Practice your evacuation plan at least twice a year.</li>
-        <li>Store 4 litres of water per person per day, for at least 3 days.</li>
-        <li>Keep a printed copy of your plan in the kit (Backup → Print).</li>
+        <li>${esc(t("tipText"))}</li>
+        <li>${esc(t("tipBackup"))}</li>
+        <li>${esc(t("tipPractice"))}</li>
+        <li>${esc(t("tipWater"))}</li>
+        <li>${esc(t("tipPrint"))}</li>
       </ul>
     </div>
 
     <div class="card ${lastExport ? "" : "card-warn"}">
-      <div class="card-head"><h3>Backup</h3></div>
+      <div class="card-head"><h3>${esc(t("backupTitle"))}</h3></div>
       ${
         lastExport
-          ? `<p>Last backup: <strong>${esc(lastExport)}</strong></p>`
-          : `<p>⚠️ <strong>Never backed up.</strong> Export a backup and copy it to every family device.</p>`
+          ? `<p>${esc(t("lastBackup"))}: <strong>${esc(lastExport)}</strong></p>`
+          : `<p>⚠️ <strong>${esc(t("neverBackedUp"))}</strong> ${esc(t("exportBackupCopy"))}</p>`
       }
       <div class="btn-row">
-        <button class="btn primary" data-action="export-plain">Export</button>
-        <button class="btn ghost" data-action="share-backup">Share</button>
-        <a class="btn ghost" href="#/backup">More</a>
+        <button class="btn primary" data-action="export-plain">${esc(t("export"))}</button>
+        <button class="btn ghost" data-action="share-backup">${esc(t("share"))}</button>
+        <a class="btn ghost" href="#/backup">${esc(t("more"))}</a>
       </div>
     </div>
   </section>`;
@@ -122,8 +122,8 @@ function placeHtml(label, p) {
     <div class="place-head">
       <span class="place-label">${esc(label)}</span>
       <span class="place-actions">
-        ${hasCoords ? `<button class="icon-btn" data-action="copy-coords" data-lat="${esc(p.lat)}" data-lng="${esc(p.lng)}" aria-label="Copy coordinates" title="Copy coordinates">📋</button>` : ""}
-        ${hasCoords ? `<button class="icon-btn" data-action="show-map" data-lat="${esc(p.lat)}" data-lng="${esc(p.lng)}" data-label="${esc(p.label || label)}" aria-label="Show on map" title="Show on map">🗺️</button>` : ""}
+        ${hasCoords ? `<button class="icon-btn" data-action="copy-coords" data-lat="${esc(p.lat)}" data-lng="${esc(p.lng)}" aria-label="${esc(t("copyCoordinates"))}" title="${esc(t("copyCoordinates"))}">📋</button>` : ""}
+        ${hasCoords ? `<button class="icon-btn" data-action="show-map" data-lat="${esc(p.lat)}" data-lng="${esc(p.lng)}" data-label="${esc(p.label || label)}" aria-label="${esc(t("showOnMap"))}" title="${esc(t("showOnMap"))}">🗺️</button>` : ""}
       </span>
     </div>
     ${p.label ? `<div class="place-name">${esc(p.label)}</div>` : ""}
@@ -137,19 +137,19 @@ function planCardHtml(key) {
   const data = state.sections.plan[key] || {};
   let rows;
   if (cfg.meeting) {
-    rows = cfg.places.map(([f, label]) => placeHtml(label, data[f] || {})).join("");
+    rows = cfg.places.map(([f, labelKey]) => placeHtml(t(labelKey), data[f] || {})).join("");
   } else {
     rows = cfg.fields
-      .map(([f, label]) => {
+      .map(([f, labelKey]) => {
         const v = data[f];
         const filled = v && String(v).trim();
-        return `<div class="kv"><span>${esc(label)}</span><span>${filled ? esc(v) : '<span class="muted">—</span>'}</span></div>`;
+        return `<div class="kv"><span>${esc(t(labelKey))}</span><span>${filled ? esc(v) : '<span class="muted">—</span>'}</span></div>`;
       })
       .join("");
   }
   return `<div class="card">
-    <div class="card-head"><h3>${esc(cfg.title)}</h3><button class="btn ghost small" data-action="edit-plan" data-id="${key}">Edit</button></div>
-    ${cfg.hint ? `<p class="hint">${esc(cfg.hint)}</p>` : ""}
+    <div class="card-head"><h3>${esc(t(cfg.titleKey))}</h3><button class="btn ghost small" data-action="edit-plan" data-id="${key}">${esc(t("edit"))}</button></div>
+    ${cfg.hintKey ? `<p class="hint">${esc(t(cfg.hintKey))}</p>` : ""}
     ${rows}
   </div>`;
 }
@@ -158,24 +158,24 @@ function renderPlan() {
   const notes = state.sections.plan.notes || "";
   return `
   <section class="page">
-    <h2 class="page-title">Emergency plan</h2>
+    <h2 class="page-title">${esc(t("emergencyPlan"))}</h2>
     ${Object.keys(PLAN_CARDS).map(planCardHtml).join("")}
     <div class="card">
-      <div class="card-head"><h3>Other notes</h3><button class="btn ghost small" data-action="edit-plan-notes">Edit</button></div>
+      <div class="card-head"><h3>${esc(t("otherNotes"))}</h3><button class="btn ghost small" data-action="edit-plan-notes">${esc(t("edit"))}</button></div>
       ${notes.trim() ? `<div class="notes">${esc(notes).replace(/\n/g, "<br>")}</div>` : '<p class="muted">—</p>'}
     </div>
     <div class="card">
-      <div class="card-head"><h3>Best practices</h3></div>
+      <div class="card-head"><h3>${esc(t("bestPractices"))}</h3></div>
       <ul class="tips">
-        <li>Make a household communication plan and practice it twice a year.</li>
-        <li>Prefer text messages over calls — networks may be overloaded.</li>
-        <li>Agree on an out-of-area contact everyone checks in with.</li>
-        <li>Know your evacuation routes and destination; plan for pets.</li>
-        <li>Learn how to shut off gas, water and electricity.</li>
-        <li>Sign up for local emergency alerts; keep a battery or hand-crank radio.</li>
-        <li>Keep printed copies of the plan and contact list in your kit.</li>
+        <li>${esc(t("bp1"))}</li>
+        <li>${esc(t("bp2"))}</li>
+        <li>${esc(t("bp3"))}</li>
+        <li>${esc(t("bp4"))}</li>
+        <li>${esc(t("bp5"))}</li>
+        <li>${esc(t("bp6"))}</li>
+        <li>${esc(t("bp7"))}</li>
       </ul>
-      <p class="src">Summarized from ready.gov/plan, FEMA and Red Cross guidance.</p>
+      <p class="src">${esc(t("srcReadyPlan"))}</p>
     </div>
   </section>`;
 }
@@ -184,26 +184,26 @@ function renderPlan() {
 
 function memberCard(m) {
   const alerts = [
-    m.allergies ? "Allergies: " + m.allergies : null,
-    m.conditions ? "Conditions: " + m.conditions : null
+    m.allergies ? t("allergies") + ": " + m.allergies : null,
+    m.conditions ? t("conditions") + ": " + m.conditions : null
   ].filter(Boolean);
   const a = age(m.dob);
   return `<div class="card item">
     <div class="item-head">
       <div>
-        <div class="item-title">${esc(m.name)}${a ? ` <span class="muted">· ${a} yrs</span>` : ""}</div>
+        <div class="item-title">${esc(m.name)}${a ? ` <span class="muted">· ${a} ${esc(t("yrs"))}</span>` : ""}</div>
         ${m.blood ? `<span class="badge red">🩸 ${esc(m.blood)}</span>` : ""}
       </div>
       <div class="item-actions">
-        <button class="icon-btn" data-action="edit-member" data-id="${m.id}" aria-label="Edit">✏️</button>
-        <button class="icon-btn" data-action="del-member" data-id="${m.id}" aria-label="Delete">🗑️</button>
+        <button class="icon-btn" data-action="edit-member" data-id="${m.id}" aria-label="${esc(t("edit"))}">✏️</button>
+        <button class="icon-btn" data-action="del-member" data-id="${m.id}" aria-label="${esc(t("delete"))}">🗑️</button>
       </div>
     </div>
     ${alerts.length ? `<div class="alert-box">${alerts.map((x) => `<div>⚠️ ${esc(x)}</div>`).join("")}</div>` : ""}
-    ${m.medications ? `<div class="kv"><span>Medications</span><span>${esc(m.medications).replace(/\n/g, "<br>")}</span></div>` : ""}
+    ${m.medications ? `<div class="kv"><span>${esc(t("medications"))}</span><span>${esc(m.medications).replace(/\n/g, "<br>")}</span></div>` : ""}
     ${
       m.doctorName || m.doctorPhone
-        ? `<div class="kv"><span>Doctor</span><span>${esc(m.doctorName || "")}${
+        ? `<div class="kv"><span>${esc(t("doctor"))}</span><span>${esc(m.doctorName || "")}${
             m.doctorPhone ? ` · <a href="${telHref(m.doctorPhone)}">${esc(m.doctorPhone)}</a>` : ""
           }</span></div>`
         : ""
@@ -220,13 +220,13 @@ function petCard(p) {
         ${p.species ? `<span class="badge">${esc(p.species)}</span>` : ""}
       </div>
       <div class="item-actions">
-        <button class="icon-btn" data-action="edit-pet" data-id="${p.id}" aria-label="Edit">✏️</button>
-        <button class="icon-btn" data-action="del-pet" data-id="${p.id}" aria-label="Delete">🗑️</button>
+        <button class="icon-btn" data-action="edit-pet" data-id="${p.id}" aria-label="${esc(t("edit"))}">✏️</button>
+        <button class="icon-btn" data-action="del-pet" data-id="${p.id}" aria-label="${esc(t("delete"))}">🗑️</button>
       </div>
     </div>
     ${
       p.vetName || p.vetPhone
-        ? `<div class="kv"><span>Vet</span><span>${esc(p.vetName || "")}${
+        ? `<div class="kv"><span>${esc(t("vet"))}</span><span>${esc(p.vetName || "")}${
             p.vetPhone ? ` · <a href="${telHref(p.vetPhone)}">${esc(p.vetPhone)}</a>` : ""
           }</span></div>`
         : ""
@@ -240,18 +240,18 @@ function contactCard(c) {
     <div class="item-head">
       <div>
         <div class="item-title">${esc(c.name)}</div>
-        <span class="badge">${esc(c.category || "Other")}</span>
+        <span class="badge">${esc(td(c.category || "Other"))}</span>
       </div>
       <div class="item-actions">
-        ${c.phone ? `<a class="icon-btn call" href="${telHref(c.phone)}" aria-label="Call">📞</a>` : ""}
-        <button class="icon-btn" data-action="edit-contact" data-id="${c.id}" aria-label="Edit">✏️</button>
-        <button class="icon-btn" data-action="del-contact" data-id="${c.id}" aria-label="Delete">🗑️</button>
+        ${c.phone ? `<a class="icon-btn call" href="${telHref(c.phone)}" aria-label="${esc(t("phone"))}">📞</a>` : ""}
+        <button class="icon-btn" data-action="edit-contact" data-id="${c.id}" aria-label="${esc(t("edit"))}">✏️</button>
+        <button class="icon-btn" data-action="del-contact" data-id="${c.id}" aria-label="${esc(t("delete"))}">🗑️</button>
       </div>
     </div>
-    ${c.phone ? `<div class="kv"><span>Phone</span><span><a href="${telHref(c.phone)}">${esc(c.phone)}</a></span></div>` : ""}
-    ${c.altPhone ? `<div class="kv"><span>Alt phone</span><span><a href="${telHref(c.altPhone)}">${esc(c.altPhone)}</a></span></div>` : ""}
-    ${c.email ? `<div class="kv"><span>Email</span><span>${esc(c.email)}</span></div>` : ""}
-    ${c.address ? `<div class="kv"><span>Address</span><span>${esc(c.address)}</span></div>` : ""}
+    ${c.phone ? `<div class="kv"><span>${esc(t("phone"))}</span><span><a href="${telHref(c.phone)}">${esc(c.phone)}</a></span></div>` : ""}
+    ${c.altPhone ? `<div class="kv"><span>${esc(t("altPhone"))}</span><span><a href="${telHref(c.altPhone)}">${esc(c.altPhone)}</a></span></div>` : ""}
+    ${c.email ? `<div class="kv"><span>${esc(t("email"))}</span><span>${esc(c.email)}</span></div>` : ""}
+    ${c.address ? `<div class="kv"><span>${esc(t("address"))}</span><span>${esc(c.address)}</span></div>` : ""}
     ${c.notes ? `<div class="notes">${esc(c.notes)}</div>` : ""}
   </div>`;
 }
@@ -262,20 +262,20 @@ function renderPeople() {
   let body;
   if (state.peopleTab === "household") {
     body = `
-      <div class="section-head"><h3>Household members</h3><button class="btn primary small" data-action="add-member">+ Add</button></div>
-      ${hh.members.length ? hh.members.map(memberCard).join("") : emptyState("👪", "No household members yet. Add everyone living in your home.")}
-      <div class="section-head"><h3>Pets</h3><button class="btn primary small" data-action="add-pet">+ Add</button></div>
-      ${hh.pets.length ? hh.pets.map(petCard).join("") : emptyState("🐾", "No pets added.")}`;
+      <div class="section-head"><h3>${esc(t("householdMembers"))}</h3><button class="btn primary small" data-action="add-member">+ ${esc(t("add"))}</button></div>
+      ${hh.members.length ? hh.members.map(memberCard).join("") : emptyState("👪", t("noHousehold"))}
+      <div class="section-head"><h3>${esc(t("pets"))}</h3><button class="btn primary small" data-action="add-pet">+ ${esc(t("add"))}</button></div>
+      ${hh.pets.length ? hh.pets.map(petCard).join("") : emptyState("🐾", t("noPets"))}`;
   } else {
     body = `
-      <div class="section-head"><h3>Emergency contacts</h3><button class="btn primary small" data-action="add-contact">+ Add</button></div>
-      ${ct.list.length ? ct.list.map(contactCard).join("") : emptyState("📇", "No contacts yet. Add family, doctors, insurers, utilities…")}
-      <p class="hint">Tip: add your out-of-area contact here too, and mark them "Out-of-area".</p>`;
+      <div class="section-head"><h3>${esc(t("emergencyContacts"))}</h3><button class="btn primary small" data-action="add-contact">+ ${esc(t("add"))}</button></div>
+      ${ct.list.length ? ct.list.map(contactCard).join("") : emptyState("📇", t("noContacts"))}
+      <p class="hint">${esc(t("tipOutOfArea"))}</p>`;
   }
   return `
   <section class="page">
-    <h2 class="page-title">People</h2>
-    ${seg([["household", "Household"], ["contacts", "Contacts"]], state.peopleTab, "seg-people")}
+    <h2 class="page-title">${esc(t("people"))}</h2>
+    ${seg([["household", t("household")], ["contacts", t("contacts")]], state.peopleTab, "seg-people")}
     ${body}
   </section>`;
 }
@@ -295,25 +295,25 @@ function renderKit() {
           (i) => `<div class="kit-row ${i.done ? "done" : ""}">
         <label class="kit-check"><input type="checkbox" data-kit-toggle="${i.id}" ${i.done ? "checked" : ""}><span class="kit-box"></span></label>
         <div class="kit-main" data-action="kit-edit" data-id="${i.id}">
-          <div class="kit-label">${esc(i.label)}</div>
-          ${i.hint ? `<div class="hint">${esc(i.hint)}</div>` : ""}
+          <div class="kit-label">${esc(td(i.label))}</div>
+          ${i.hint ? `<div class="hint">${esc(td(i.hint))}</div>` : ""}
           ${i.notes ? `<div class="notes">📝 ${esc(i.notes)}</div>` : ""}
         </div>
-        <input class="kit-qty" type="text" inputmode="text" data-kit-qty="${i.id}" value="${esc(i.qty)}" placeholder="qty" aria-label="Quantity">
-        <button class="icon-btn" data-action="kit-del" data-id="${i.id}" aria-label="Remove">🗑️</button>
+        <input class="kit-qty" type="text" inputmode="text" data-kit-qty="${i.id}" value="${esc(i.qty)}" placeholder="${esc(t("qty"))}" aria-label="${esc(t("quantity"))}">
+        <button class="icon-btn" data-action="kit-del" data-id="${i.id}" aria-label="${esc(t("remove"))}">🗑️</button>
       </div>`
         )
         .join("");
-      return `<div class="kit-group"><div class="kit-cat">${esc(cat)} <span class="muted">${done}/${items.length}</span></div>${rows}</div>`;
+      return `<div class="kit-group"><div class="kit-cat">${esc(td(cat))} <span class="muted">${done}/${items.length}</span></div>${rows}</div>`;
     })
     .join("");
   return `
   <section class="page">
-    <h2 class="page-title">Emergency kit</h2>
-    ${progressBar(pct, "Kit readiness", "kitProgress")}
+    <h2 class="page-title">${esc(t("emergencyKit"))}</h2>
+    ${progressBar(pct, t("kitReadiness"), "kitProgress")}
     ${groups}
-    <button class="btn primary wide" data-action="kit-add">+ Add item</button>
-    <p class="src">Checklist pre-loaded from ready.gov/kit and Red Cross guidance. Tick items off as you pack them.</p>
+    <button class="btn primary wide" data-action="kit-add">+ ${esc(t("addKitItem"))}</button>
+    <p class="src">${esc(t("srcReadyKit"))}</p>
   </section>`;
 }
 
@@ -340,26 +340,26 @@ function renderDocuments() {
           <div class="doc-name">${esc(f.name)}</div>
           <div class="hint">${fmtSize(f.size)} · ${fmtDate(f.addedAt)}</div>
         </div>
-        <button class="icon-btn" data-action="doc-open" data-id="${f.id}" aria-label="Open">👁️</button>
-        <button class="icon-btn" data-action="doc-download" data-id="${f.id}" aria-label="Download">⬇️</button>
-        <button class="icon-btn" data-action="doc-del" data-id="${f.id}" aria-label="Delete">🗑️</button>
+        <button class="icon-btn" data-action="doc-open" data-id="${f.id}" aria-label="${esc(t("open"))}">👁️</button>
+        <button class="icon-btn" data-action="doc-download" data-id="${f.id}" aria-label="${esc(t("download"))}">⬇️</button>
+        <button class="icon-btn" data-action="doc-del" data-id="${f.id}" aria-label="${esc(t("delete"))}">🗑️</button>
       </div>`
         )
         .join("");
-      return `<div class="kit-group"><div class="kit-cat">${esc(cat)} <span class="muted">${items.length}</span></div>${rows}</div>`;
+      return `<div class="kit-group"><div class="kit-cat">${esc(td(cat))} <span class="muted">${items.length}</span></div>${rows}</div>`;
     })
     .join("");
   return `
     <div class="card">
-      <div class="card-head"><h3>Store documents</h3></div>
-      ${field("Category", "docCategory", state.docCategory, { options: DOC_CATEGORIES.map((c) => [c, c]) })}
+      <div class="card-head"><h3>${esc(t("storeDocuments"))}</h3></div>
+      ${field(t("category"), "docCategory", state.docCategory, { options: DOC_CATEGORIES.map((c) => [c, td(c)]) })}
       <div class="btn-row">
-        <button class="btn primary" data-action="doc-upload">📎 Upload files</button>
-        <button class="btn ghost" data-action="doc-camera">📷 Take photo</button>
+        <button class="btn primary" data-action="doc-upload">${esc(t("uploadFiles"))}</button>
+        <button class="btn ghost" data-action="doc-camera">${esc(t("takePhoto"))}</button>
       </div>
-      <p class="hint">Photos of IDs, insurance cards, prescriptions, property papers… Files never leave this device unless you export them.</p>
+      <p class="hint">${esc(t("docsHint"))}</p>
     </div>
-    ${files.length ? groups : emptyState("🗂️", "No documents stored yet.")}`;
+    ${files.length ? groups : emptyState("🗂️", t("noDocuments"))}`;
 }
 
 function vitalCard(r) {
@@ -371,11 +371,11 @@ function vitalCard(r) {
     <div class="item-head">
       <div>
         <div class="item-title">${esc(r.title)}</div>
-        <span class="badge">${esc(r.category || "Other")}</span>
+        <span class="badge">${esc(td(r.category || "Other"))}</span>
       </div>
       <div class="item-actions">
-        <button class="icon-btn" data-action="vital-edit" data-id="${r.id}" aria-label="Edit">✏️</button>
-        <button class="icon-btn" data-action="vital-del" data-id="${r.id}" aria-label="Delete">🗑️</button>
+        <button class="icon-btn" data-action="vital-edit" data-id="${r.id}" aria-label="${esc(t("edit"))}">✏️</button>
+        <button class="icon-btn" data-action="vital-del" data-id="${r.id}" aria-label="${esc(t("delete"))}">🗑️</button>
       </div>
     </div>
     ${rows}
@@ -386,16 +386,16 @@ function vitalCard(r) {
 function renderVital() {
   const records = state.sections.vital.records;
   return `
-    <div class="section-head"><h3>Vital information</h3><button class="btn primary small" data-action="vital-add">+ Add</button></div>
-    ${records.length ? records.map(vitalCard).join("") : emptyState("🔐", "No records yet. Add insurance policies, account references, medical info…")}
-    <p class="hint">Tip: avoid storing full passwords — store hints or recovery info instead.</p>`;
+    <div class="section-head"><h3>${esc(t("vitalInformation"))}</h3><button class="btn primary small" data-action="vital-add">+ ${esc(t("add"))}</button></div>
+    ${records.length ? records.map(vitalCard).join("") : emptyState("🔐", t("noRecords"))}
+    <p class="hint">${esc(t("tipPasswords"))}</p>`;
 }
 
 function renderVault() {
   return `
   <section class="page">
-    <h2 class="page-title">Vault</h2>
-    ${seg([["documents", "Documents"], ["vital", "Vital info"]], state.vaultTab, "seg-vault")}
+    <h2 class="page-title">${esc(t("vault"))}</h2>
+    ${seg([["documents", t("documents")], ["vital", t("vitalInfo")]], state.vaultTab, "seg-vault")}
     ${state.vaultTab === "documents" ? renderDocuments() : renderVital()}
   </section>`;
 }
@@ -406,51 +406,51 @@ function renderBackup() {
   const meta = state.sections.meta;
   return `
   <section class="page">
-    <h2 class="page-title">Backup &amp; sync</h2>
+    <h2 class="page-title">${esc(t("backupSync"))}</h2>
 
     <div class="card">
-      <div class="card-head"><h3>Storage on this device</h3></div>
-      <p id="storageStat">Checking…</p>
-      <p class="hint">All data is stored locally on this device (IndexedDB). Nothing is sent anywhere.</p>
+      <div class="card-head"><h3>${esc(t("storageOnDevice"))}</h3></div>
+      <p id="storageStat">${esc(t("storageChecking"))}</p>
+      <p class="hint">${esc(t("storageLocal"))}</p>
     </div>
 
     <div class="card">
-      <div class="card-head"><h3>Export</h3></div>
-      <p>${meta.lastExportAt ? `Last backup: <strong>${esc(fmtDateTime(meta.lastExportAt))}</strong>` : "⚠️ Never backed up."}</p>
+      <div class="card-head"><h3>${esc(t("exportTitle"))}</h3></div>
+      <p>${meta.lastExportAt ? `${esc(t("lastBackup"))}: <strong>${esc(fmtDateTime(meta.lastExportAt))}</strong>` : "⚠️ " + esc(t("neverBackedUp"))}</p>
       <div class="btn-row wrap">
-        <button class="btn primary" data-action="export-plain">Export backup</button>
-        <button class="btn ghost" data-action="export-encrypted">Export encrypted</button>
-        <button class="btn ghost" data-action="share-backup">Share…</button>
+        <button class="btn primary" data-action="export-plain">${esc(t("exportBackup"))}</button>
+        <button class="btn ghost" data-action="export-encrypted">${esc(t("exportEncrypted"))}</button>
+        <button class="btn ghost" data-action="share-backup">${esc(t("shareEllipsis"))}</button>
       </div>
-      <p class="hint">Move the file to other family devices via Bluetooth, Nearby Share, USB or SD card — no internet needed. Use "Share" on Android to send it directly. Encrypted backups require a passphrase to import.</p>
+      <p class="hint">${esc(t("exportHint"))}</p>
     </div>
 
     <div class="card">
-      <div class="card-head"><h3>Import</h3></div>
-      <p>Load a backup file exported from another device. <strong>This replaces all current data on this device.</strong></p>
-      <button class="btn primary" data-action="import-trigger">Import from file</button>
+      <div class="card-head"><h3>${esc(t("importTitle"))}</h3></div>
+      <p>${esc(t("importDesc"))} <strong>${esc(t("importReplaces"))}</strong></p>
+      <button class="btn primary" data-action="import-trigger">${esc(t("importFromFile"))}</button>
       <div class="btn-row wrap" style="margin-top:10px">
         <button class="btn ghost" data-action="import-onedrive">☁️ OneDrive</button>
         <button class="btn ghost" data-action="import-gdrive">☁️ Google Drive</button>
       </div>
-      <p class="hint">Cloud import needs an internet connection and a one-time setup (see README). When offline, use file import — it always works.</p>
+      <p class="hint">${esc(t("cloudImportHint"))}</p>
     </div>
 
     <div class="card">
-      <div class="card-head"><h3>Print</h3></div>
-      <p>Print a paper summary of your plan, household medical info and contacts for the emergency kit.</p>
-      <button class="btn ghost" data-action="print-summary">🖨️ Print emergency summary</button>
+      <div class="card-head"><h3>${esc(t("printTitle"))}</h3></div>
+      <p>${esc(t("printDesc"))}</p>
+      <button class="btn ghost" data-action="print-summary">${esc(t("printSummary"))}</button>
     </div>
 
     <div class="card card-danger">
-      <div class="card-head"><h3>Danger zone</h3></div>
-      <button class="btn danger" data-action="erase-all">Erase all data on this device</button>
+      <div class="card-head"><h3>${esc(t("dangerZone"))}</h3></div>
+      <button class="btn danger" data-action="erase-all">${esc(t("eraseAll"))}</button>
     </div>
 
     <div class="card">
-      <div class="card-head"><h3>About</h3></div>
-      <p>SafeHaven v${APP_VERSION} — works 100% offline. Your data never leaves your device except when you export it.</p>
-      <p class="src">Guidance summarized from ready.gov/plan, ready.gov/kit, FEMA and the Red Cross.</p>
+      <div class="card-head"><h3>${esc(t("about"))}</h3></div>
+      <p>SafeHaven v${APP_VERSION} — ${esc(t("aboutDesc"))}</p>
+      <p class="src">${esc(t("srcGuidance"))}</p>
     </div>
   </section>`;
 }
@@ -528,12 +528,12 @@ function mapModalHtml(label, lat, lng) {
       ${online ? '<div id="mapCanvas" class="map-canvas"></div>' : ""}
       <div class="map-offline ${online ? "hidden" : ""}">
         <div class="map-pin">📍</div>
-        <p>You're offline — interactive map unavailable.</p>
-        <p class="hint">Coordinates are shown above. Copy them into any GPS device or map app.</p>
+        <p>${esc(t("offlineMapTitle"))}</p>
+        <p class="hint">${esc(t("offlineMapHint"))}</p>
       </div>
       <div class="btn-row wrap">
-        <button class="btn ghost small" data-action="copy-coords" data-lat="${esc(lat)}" data-lng="${esc(lng)}">📋 Copy coordinates</button>
-        ${online ? `<a class="btn ghost small" target="_blank" rel="noopener" href="https://www.openstreetmap.org/?mlat=${encodeURIComponent(lat)}&mlon=${encodeURIComponent(lng)}#map=17/${encodeURIComponent(lat)}/${encodeURIComponent(lng)}">Open full map</a>` : ""}
+        <button class="btn ghost small" data-action="copy-coords" data-lat="${esc(lat)}" data-lng="${esc(lng)}">📋 ${esc(t("copyCoordinates"))}</button>
+        ${online ? `<a class="btn ghost small" target="_blank" rel="noopener" href="https://www.openstreetmap.org/?mlat=${encodeURIComponent(lat)}&mlon=${encodeURIComponent(lng)}#map=17/${encodeURIComponent(lat)}/${encodeURIComponent(lng)}">${esc(t("openFullMap"))}</a>` : ""}
       </div>
     </div>`;
 }
@@ -543,6 +543,10 @@ function allSheltersMapHtml() {
   return `
     <div class="map-wrap">
       ${online ? '<div id="mapCanvasAll" class="map-canvas map-canvas-all"></div>' : `<div class="map-offline"><div class="map-pin">🗺️</div><p>${esc(t("mapOnlineOnly"))}</p></div>`}
+      <div class="btn-row wrap">
+        <button class="btn ghost small" data-action="map-all-locate">📡 ${esc(t("locateMe"))}</button>
+        ${online ? `<button class="btn ghost small" data-action="map-all-full">🗺️ ${esc(t("openFullMap"))}</button>` : ""}
+      </div>
     </div>`;
 }
 
@@ -552,10 +556,10 @@ function renderIce() {
   const p = state.sections.plan;
   const hh = state.sections.household;
   const nums = [
-    ["Ambulance", p.numbers.medical],
-    ["Police", p.numbers.police],
-    ["Fire", p.numbers.fire],
-    ["Other", p.numbers.other]
+    [t("ambulance"), p.numbers.medical],
+    [t("police"), p.numbers.police],
+    [t("fire"), p.numbers.fire],
+    [t("other"), p.numbers.other]
   ].filter(([, v]) => v && String(v).trim());
 
   const callBtns = nums.length
@@ -565,24 +569,24 @@ function renderIce() {
             `<a class="ice-call" href="${telHref(num)}"><span class="ice-call-label">${esc(label)}</span><span class="ice-call-num">${esc(num)}</span></a>`
         )
         .join("")
-    : '<p class="muted">No emergency numbers set — add them in the Plan tab.</p>';
+    : `<p class="muted">${esc(t("noEmergencyNumbers"))}</p>`;
 
   const medical = hh.members
     .filter((m) => m.allergies || m.conditions || m.medications || m.blood)
     .map(
       (m) => `<div class="card item">
       <div class="item-title">${esc(m.name)} ${m.blood ? `<span class="badge red">🩸 ${esc(m.blood)}</span>` : ""}</div>
-      ${m.allergies ? `<div class="alert-box">⚠️ Allergies: ${esc(m.allergies)}</div>` : ""}
-      ${m.conditions ? `<div class="alert-box">⚠️ Conditions: ${esc(m.conditions)}</div>` : ""}
-      ${m.medications ? `<div class="kv"><span>Medications</span><span>${esc(m.medications).replace(/\n/g, "<br>")}</span></div>` : ""}
+      ${m.allergies ? `<div class="alert-box">⚠️ ${esc(t("allergies"))}: ${esc(m.allergies)}</div>` : ""}
+      ${m.conditions ? `<div class="alert-box">⚠️ ${esc(t("conditions"))}: ${esc(m.conditions)}</div>` : ""}
+      ${m.medications ? `<div class="kv"><span>${esc(t("medications"))}</span><span>${esc(m.medications).replace(/\n/g, "<br>")}</span></div>` : ""}
     </div>`
     )
     .join("");
 
   const meetings = [
-    ["Right outside home", p.meeting.near],
-    ["Outside neighborhood", p.meeting.neighborhood],
-    ["Out of town", p.meeting.regional]
+    [t("rightOutsideHome"), p.meeting.near],
+    [t("outsideNeighborhood"), p.meeting.neighborhood],
+    [t("outOfTown"), p.meeting.regional]
   ].filter(([, pl]) => pl && (pl.label || pl.address || (pl.lat && pl.lng)));
 
   return `
@@ -602,7 +606,7 @@ function renderIce() {
         p.outOfArea.name || p.outOfArea.phone
           ? `<div class="ice-big">${esc(p.outOfArea.name || "—")}</div>
              ${p.outOfArea.phone ? `<a class="ice-call" href="${telHref(p.outOfArea.phone)}"><span class="ice-call-num">${esc(p.outOfArea.phone)}</span></a>` : ""}`
-          : '<p class="muted">Not set — add it in the Plan tab.</p>'
+          : `<p class="muted">${esc(t("notSetPlanContact"))}</p>`
       }
     </div>
 
